@@ -1,12 +1,16 @@
 import useSWR from "swr";
-import {Plan} from "../lib/Plan";
+import {PlanListItem} from "../lib/PlanListItem";
 import fetcher from "../lib/fetch";
 import PlanView from "./PlanView";
 import {apiHost} from "../lib/api";
 import styles from '../styles/layout.module.css';
+import {useState} from "react";
+import PlanDetailsView from "./PlanDetailsView";
 
 export default function PlanList() {
-    const { data, error } = useSWR<Plan[], Error>(
+    const [selectedPlan, setSelectedPlan] = useState<PlanListItem>();
+
+    const { data, error } = useSWR<PlanListItem[], Error>(
         `${apiHost}/plans/`,
         fetcher/*,
         { refreshInterval: 60000 }*/
@@ -25,10 +29,16 @@ export default function PlanList() {
     }
 
     return (
-        <div className={styles.planList}>
-            {allPlans.map((plan: Plan) => {
-                return (<PlanView plan={plan} />)
-            })}
+        <div>
+            {selectedPlan ?
+                <PlanDetailsView planListItem={selectedPlan} onClose={() => setSelectedPlan(null)} />
+                :
+                <div className={styles.planList}>
+                    {allPlans.map((plan: PlanListItem) => {
+                        return (<PlanView plan={plan} onClick={() => setSelectedPlan(plan)} key={plan.uuid} />)
+                    })}
+                </div>
+            }
         </div>
     )
 }

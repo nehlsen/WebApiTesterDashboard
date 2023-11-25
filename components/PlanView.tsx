@@ -1,4 +1,4 @@
-import {Plan} from "../lib/Plan";
+import {PlanListItem} from "../lib/PlanListItem";
 import useSWR from "swr";
 import {apiHost} from "../lib/api";
 import fetcher from "../lib/fetch";
@@ -6,8 +6,9 @@ import {PlanExecutionRecord} from "../lib/PlanExecutionRecord";
 import styles from "../styles/layout.module.css";
 import ExecutionRecordView from "./ExecutionRecordView";
 import BtnRunPlan from "./BtnRunPlan";
+import {MouseEventHandler} from "react";
 
-export default function PlanView({plan}: {plan: Plan}) {
+export default function PlanView({plan, onClick}: {plan: PlanListItem, onClick: MouseEventHandler<HTMLElement>}) {
     const { data, error } = useSWR<PlanExecutionRecord, Error>(
         `${apiHost}/plans/${plan.uuid}/execution-records/latest`,
         fetcher/*,
@@ -28,7 +29,7 @@ export default function PlanView({plan}: {plan: Plan}) {
 
     return (
         <div className={styles.planView}>
-            <strong>{plan.name}</strong>
+            <a onClick={onClick}>{plan.name}</a>
             {executionRecord ?
                 <ExecutionRecordView record={executionRecord} />
                 : <div>NO RECORD</div>
