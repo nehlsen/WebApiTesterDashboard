@@ -1,6 +1,6 @@
 # Web-Api-Tester Dashboard
 
-A Dashboard for LINK-TO-WebApiTester
+A Dashboard for [WebApiTester](https://github.com/nehlsen/WebApiTester)
 
 ## Usage
 
