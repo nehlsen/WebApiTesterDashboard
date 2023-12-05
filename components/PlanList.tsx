@@ -4,12 +4,8 @@ import fetcher from "../lib/fetch";
 import PlanView from "./PlanView";
 import {apiHost} from "../lib/api";
 import styles from '../styles/layout.module.css';
-import {useState} from "react";
-import PlanDetailsView from "./PlanDetailsView";
 
-export default function PlanList() {
-    const [selectedPlan, setSelectedPlan] = useState<PlanListItem>();
-
+export default function PlanList({onSelectPlan}: {onSelectPlan: (PlanListItem) => void}) {
     const { data, error } = useSWR<PlanListItem[], Error>(
         `${apiHost}/plans/`,
         fetcher/*,
@@ -30,15 +26,11 @@ export default function PlanList() {
 
     return (
         <div>
-            {selectedPlan ?
-                <PlanDetailsView planListItem={selectedPlan} onClose={() => setSelectedPlan(null)} />
-                :
-                <div className={styles.planList}>
-                    {allPlans.map((plan: PlanListItem) => {
-                        return (<PlanView plan={plan} onClick={() => setSelectedPlan(plan)} key={plan.uuid} />)
-                    })}
-                </div>
-            }
+            <div className={styles.planList}>
+                {allPlans.map((plan: PlanListItem) => {
+                    return (<PlanView plan={plan} onClick={() => onSelectPlan(plan)} key={plan.uuid}/>)
+                })}
+            </div>
         </div>
     )
 }

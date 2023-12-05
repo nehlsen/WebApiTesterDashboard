@@ -74,7 +74,11 @@ function AssertionView({assertion}: {assertion: Assertion}) {
     )
 }
 
-export default function PlanDetailsView({planListItem, onClose}: {planListItem: PlanListItem, onClose: MouseEventHandler<HTMLElement>}) {
+export default function PlanDetailsView({planListItem, onClose}: {planListItem: PlanListItem|undefined, onClose: MouseEventHandler<HTMLElement>}) {
+    if (!planListItem) {
+        return (<div>Loading ...</div>)
+    }
+
     const { data, error } = useSWR<Plan, Error>(
         `${apiHost}/plans/${planListItem.uuid}`,
         fetcher/*,
