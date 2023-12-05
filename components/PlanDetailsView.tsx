@@ -7,6 +7,7 @@ import {MouseEventHandler} from "react";
 import styles from "../styles/layout.module.css";
 import {Task} from "../lib/Task";
 import {Assertion} from "../lib/Assertion";
+import ExecutionRecordList from "./ExecutionRecordList";
 
 function PlanSchedule({plan}: {plan: Plan}) {
     if (plan.schedule) {
@@ -93,13 +94,16 @@ export default function PlanDetailsView({planListItem, onClose}: {planListItem: 
     }
 
     return (
-        <div className={styles.planDetails}>
-            <h2>
-                <a onClick={onClose} className={styles.closeBtn}>❌ close</a>
-                {plan.name}
-            </h2>
-            <PlanSchedule plan={plan} />
-            <TaskList tasks={plan.tasks} />
-        </div>
+        <>
+            <div className={styles.planDetails}>
+                <h2>
+                    <a onClick={onClose} className={styles.closeBtn}>❌ close</a>
+                    {plan.name}
+                </h2>
+                <PlanSchedule plan={plan} />
+                <TaskList tasks={plan.tasks} />
+            </div>
+            <ExecutionRecordList plan={plan} />
+        </>
     )
 }
