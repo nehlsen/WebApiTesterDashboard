@@ -4,35 +4,38 @@ import {apiHost} from "../lib/api";
 import fetcher from "../lib/fetch";
 import {Plan} from "../lib/Plan";
 import {MouseEventHandler} from "react";
-import styles from "../styles/layout.module.css";
 import {Task} from "../lib/Task";
 import {Assertion} from "../lib/Assertion";
-import ExecutionRecordList from "./ExecutionRecordList";
 
 function PlanSchedule({plan}: {plan: Plan}) {
-    if (plan.schedule) {
+    if (!plan.schedule) {
         return (
-            <div>
-                ⏰
-                <span>{plan.schedule}</span>
-                <span>{plan.scheduleActive ? "active" : "not-active"}</span>
-            </div>
-        )
-    } else {
-        return (
-            <span>not scheduled</span>
+            <em>not scheduled</em>
         )
     }
+
+    return (
+        <>
+            ⏰
+            <span>{plan.schedule}</span>
+            <span>{plan.scheduleActive ? "active" : "not-active"}</span>
+        </>
+    )
 }
 
 function TaskList({tasks}: {tasks: Task[]}) {
     return (
-        <div>
-            <h3>{tasks.length} Tasks</h3>
+        <>
+            {tasks.length == 0 ? <h3>No Tasks</h3> : <></> }
+            {/*<h3>{tasks.length} Tasks</h3>*/}
+            <ul>
             {tasks.map(task =>
-                <TaskView task={task} key={task.uuid} />
+                <li>
+                    <TaskView task={task} key={task.uuid} />
+                </li>
             )}
-        </div>
+            </ul>
+        </>
     )
 }
 
@@ -40,8 +43,10 @@ function TaskView({task}: {task: Task}) {
     return (
         <div>
             <h4>{task.name}</h4>
-            <small>{task.type}</small>
-            <small>{task.uri}</small>
+            <code>
+                {task.type} {task.uri} <br/>
+                {task.parameters['body']}
+            </code>
             <AssertionList assertions={task.assertions} />
         </div>
     )
@@ -50,10 +55,15 @@ function TaskView({task}: {task: Task}) {
 function AssertionList({assertions}: {assertions: Assertion[]}) {
     return (
         <div>
-            <h3>{assertions.length} Assertions</h3>
+            {assertions.length == 0 ? <h3>No Assertions</h3> : <></> }
+            {/*<h3>{assertions.length} Assertions</h3>*/}
+            <ul>
             {assertions.map(assertion =>
-                <AssertionView assertion={assertion} key={assertion.uuid} />
+                <li>
+                    <AssertionView assertion={assertion} key={assertion.uuid} />
+                </li>
             )}
+            </ul>
         </div>
     )
 }
@@ -66,7 +76,7 @@ function AssertionView({assertion}: {assertion: Assertion}) {
             <ul>
                 {Object.keys(assertion.parameters).map(k => {
                     return (
-                        <li key={k}>{k}: {assertion.parameters[k]}</li>
+                        <li key={k}><code>{k}: {assertion.parameters[k]}</code></li>
                     )
                 })}
             </ul>
@@ -74,11 +84,7 @@ function AssertionView({assertion}: {assertion: Assertion}) {
     )
 }
 
-export default function PlanDetailsView({planListItem, onClose}: {planListItem: PlanListItem|undefined, onClose: MouseEventHandler<HTMLElement>}) {
-    if (!planListItem) {
-        return (<div>Loading ...</div>)
-    }
-
+export default function PlanDetailsView({planListItem, onClose}: {planListItem: PlanListItem, onClose: MouseEventHandler<HTMLElement>}) {
     const { data, error } = useSWR<Plan, Error>(
         `${apiHost}/plans/${planListItem.uuid}`,
         fetcher/*,
@@ -98,16 +104,19 @@ export default function PlanDetailsView({planListItem, onClose}: {planListItem: 
     }
 
     return (
-        <>
-            <div className={styles.planDetails}>
-                <h2>
-                    <a onClick={onClose} className={styles.closeBtn}>❌ close</a>
-                    {plan.name}
-                </h2>
-                <PlanSchedule plan={plan} />
-                <TaskList tasks={plan.tasks} />
+        <div>
+            <div>
+                <div>
+                    <strong>{plan.name}</strong>
+                    <a onClick={onClose}>❌ close</a>
+                </div>
+                <div>
+                    <PlanSchedule plan={plan} />
+                </div>
+                <div>
+                    <TaskList tasks={plan.tasks} />
+                </div>
             </div>
-            <ExecutionRecordList plan={plan} />
-        </>
+        </div>
     )
 }

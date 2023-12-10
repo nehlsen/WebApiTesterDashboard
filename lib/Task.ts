@@ -6,4 +6,5 @@ export interface Task {
     name: String
     uri: String
     assertions: Assertion[]
+    parameters: Map<string, string>
 }

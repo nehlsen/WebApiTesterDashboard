@@ -3,7 +3,6 @@ import {PlanListItem} from "../lib/PlanListItem";
 import fetcher from "../lib/fetch";
 import PlanView from "./PlanView";
 import {apiHost} from "../lib/api";
-import styles from '../styles/layout.module.css';
 
 export default function PlanList({onSelectPlan}: {onSelectPlan: (PlanListItem) => void}) {
     const { data, error } = useSWR<PlanListItem[], Error>(
@@ -26,11 +25,9 @@ export default function PlanList({onSelectPlan}: {onSelectPlan: (PlanListItem) =
 
     return (
         <div>
-            <div className={styles.planList}>
-                {allPlans.map((plan: PlanListItem) => {
-                    return (<PlanView plan={plan} onClick={() => onSelectPlan(plan)} key={plan.uuid}/>)
-                })}
-            </div>
+            {allPlans.map((plan: PlanListItem) => {
+                return (<PlanView plan={plan} onClick={() => onSelectPlan(plan)} key={plan.uuid}/>)
+            })}
         </div>
     )
 }

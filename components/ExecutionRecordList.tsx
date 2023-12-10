@@ -5,9 +5,9 @@ import fetcher from "../lib/fetch";
 import {PlanExecutionRecord} from "../lib/PlanExecutionRecord";
 import {tr} from "date-fns/locale";
 import Date from "./date";
-import styles from "../styles/layout.module.css";
+import {PlanListItem} from "../lib/PlanListItem";
 
-export default function ExecutionRecordList({plan}: {plan: Plan}) {
+export default function ExecutionRecordList({plan, onSelectExecutionRecord}: {plan: PlanListItem, onSelectExecutionRecord: (record: PlanExecutionRecord) => void}) {
     const { data, error } = useSWR<PlanExecutionRecord[], Error>(
         `${apiHost}/plans/${plan.uuid}/execution-records/`,
         fetcher/*,
@@ -40,14 +40,14 @@ export default function ExecutionRecordList({plan}: {plan: Plan}) {
                 <tbody>
                 {executionRecords.map(record =>
                     <tr>
-                        <td>
+                        <td onClick={() => onSelectExecutionRecord(record)}>
                             <Date dateString={record.timestamp} />
                         </td>
                         <td>
-                            <span className={styles.runtime}>{record.runtimeMillis < 1 ? "-" : record.runtimeMillis}ms</span>
+                            <span>{record.runtimeMillis < 1 ? "-" : record.runtimeMillis}ms</span>
                         </td>
                         <td>
-                            <span className={styles.resultPositive}>{record.resultPositive ? "🍀" : "💩"}</span>
+                            <span>{record.resultPositive ? "🍀" : "💩"}</span>
                         </td>
                     </tr>
                 )}
