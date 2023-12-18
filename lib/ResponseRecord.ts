@@ -1,5 +1,7 @@
+import {HeadersRecord} from "./HeadersRecord";
+
 export interface ResponseRecord {
     statusCode: number
-    headers: Map<string, string[]>
+    headers: HeadersRecord
     body: string
 }

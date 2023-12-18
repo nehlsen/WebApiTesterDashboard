@@ -1,47 +1,19 @@
 import Head from 'next/head';
-import Layout, {siteTitle} from '../components/layout';
-import PlanList from "../components/PlanList";
-import PlanDetailsView from "../components/PlanDetailsView";
-import {useState} from "react";
-import {PlanListItem} from "../lib/PlanListItem";
-import ExecutionRecordList from "../components/ExecutionRecordList";
-import {PlanExecutionRecord} from "../lib/PlanExecutionRecord";
-import ExecutionRecordDetailsView from "../components/ExecutionRecordDetailsView";
+import {PlanLinkList} from "../components/plan/PlanLinkList";
+import {Center, Heading} from "@chakra-ui/react";
 
 export default function Home() {
-    const [selectedPlan, setSelectedPlan] = useState<PlanListItem>();
-    const [selectedExecutionRecord, setSelectedExecutionRecord] = useState<PlanExecutionRecord>();
-
     return (
-        <Layout>
+        <div>
             <Head>
-                <title>{siteTitle}</title>
+                <title>Web API Tester Dashboard</title>
             </Head>
-            <div>
-                <PlanList
-                    onSelectPlan={plan => setSelectedPlan(plan)} />
-                {selectedPlan ?
-                    <PlanDetailsView
-                        planListItem={selectedPlan}
-                        onClose={() => {setSelectedPlan(null); setSelectedExecutionRecord(null);}} />
-                    :
-                    <></>
-                }
-
-                {selectedPlan ?
-                    <ExecutionRecordList
-                        plan={selectedPlan}
-                        onSelectExecutionRecord={record => setSelectedExecutionRecord(record)} />
-                    :
-                    <></>
-                }
-                {selectedExecutionRecord ?
-                    <ExecutionRecordDetailsView
-                        record={selectedExecutionRecord} />
-                    :
-                    <></>
-                }
-            </div>
-        </Layout>
+            <Center>
+                <Heading>Web API Tester Dashboard</Heading>
+            </Center>
+            <Center>
+                <PlanLinkList />
+            </Center>
+        </div>
     );
 }

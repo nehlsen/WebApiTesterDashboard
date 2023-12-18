@@ -1,6 +1,8 @@
+import {HeadersRecord} from "./HeadersRecord";
+
 export interface RequestRecord {
     method: string
     uri: string
-    headers: Map<string, string[]>
+    headers: HeadersRecord
     body: string
 }
