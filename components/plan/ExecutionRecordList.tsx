@@ -24,8 +24,8 @@ import {HeadersRecordView} from "./HeadersRecordView";
 export function ExecutionRecordList({plan}: {plan: PlanListItem}) {
     const { data, error } = useSWR<PlanExecutionRecord[], Error>(
         `${apiHost}/plans/${plan.uuid}/execution-records/`,
-        fetcher/*,
-        { refreshInterval: 60000 }*/
+        fetcher,
+        { refreshInterval: 15000 }
     );
 
     if (error) {

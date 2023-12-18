@@ -10,8 +10,8 @@ import {SwrLoading} from "../SwrLoading";
 export function PlanLinkList() {
     const { data, error } = useSWR<PlanListItem[], Error>(
         `${apiHost}/plans/`,
-        fetcher/*,
-        { refreshInterval: 60000 }*/
+        fetcher,
+        { refreshInterval: 60000 }
     );
 
     if (error) {
