@@ -3,7 +3,7 @@ import {Plan} from "../../lib/Plan";
 import {apiHost} from "../../lib/api";
 import fetcher from "../../lib/fetch";
 import {PlanSchedule} from "./PlanSchedule";
-import {Box, Flex, Heading, Tab, TabList, TabPanel, TabPanels, Tabs} from "@chakra-ui/react";
+import {Box, Flex, Heading, Tab, TabList, TabPanel, TabPanels, Tabs, VStack} from "@chakra-ui/react";
 import {TaskList} from "./TaskList";
 import {ExecutionRecordList} from "./ExecutionRecordList";
 import {ErrorFailedToFetch} from "../ErrorFailedToFetch";
@@ -25,7 +25,7 @@ export function PlanDetailsView({uuid}: {uuid: String}) {
     }
 
     return (
-        <Box m={3}>
+        <Box m={3} flex={`1`}>
             <Flex>
                 <Box as="span" flex='1' textAlign='left'>
                     <Heading>{data.name}</Heading>

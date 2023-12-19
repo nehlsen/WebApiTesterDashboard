@@ -1,7 +1,8 @@
 import {useRouter} from "next/router";
 import {PlanDetailsView} from "../../components/plan/PlanDetailsView";
 import {PlanLinkList} from "../../components/plan/PlanLinkList";
-import {Flex} from "@chakra-ui/react";
+import {Flex, VStack} from "@chakra-ui/react";
+import Link from "next/link";
 
 export default function Page() {
     const router = useRouter()
@@ -12,8 +13,11 @@ export default function Page() {
     }
 
     return (
-        <Flex m={3}>
-            <PlanLinkList />
+        <Flex>
+            <VStack pt={'5'}>
+                <Link href={'/'}>📟 DASHBOARD</Link>
+                <PlanLinkList />
+            </VStack>
             <PlanDetailsView uuid={uuidOfPlan} />
         </Flex>
     )

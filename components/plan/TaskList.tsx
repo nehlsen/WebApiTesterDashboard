@@ -23,7 +23,7 @@ export function TaskList({tasks}: {tasks: Task[]}) {
 function TaskView({task}: {task: Task}) {
     return (
         <Box>
-            <Text fontSize='lg'>{task.name}</Text>
+            <Text fontSize='lg'>🧩 {task.name}</Text>
             <Code>
                 {task.type} {task.uri} <br/>
                 {task.parameters['body']}
@@ -56,7 +56,7 @@ function AssertionList({assertions}: {assertions: Assertion[]}) {
 function AssertionView({assertion}: {assertion: Assertion}) {
     return (
         <Box>
-            <h4>{assertion.type}</h4>
+            <h4>🔬 {assertion.type}</h4>
 
             <UnorderedList>
                 {Object.keys(assertion.parameters).map(k => {

@@ -3,7 +3,7 @@ import {PlanListItem} from "../../lib/PlanListItem";
 import {apiHost} from "../../lib/api";
 import fetcher from "../../lib/fetch";
 import Link from "next/link";
-import {Box} from "@chakra-ui/react";
+import {Box, VStack} from "@chakra-ui/react";
 import {ErrorFailedToFetch} from "../ErrorFailedToFetch";
 import {SwrLoading} from "../SwrLoading";
 
@@ -12,7 +12,7 @@ export function PlanLinkList() {
         `${apiHost}/plans/`,
         fetcher,
         { refreshInterval: 60000 }
-    );
+    )
 
     if (error) {
         return <ErrorFailedToFetch error={error} />
@@ -22,7 +22,7 @@ export function PlanLinkList() {
     }
 
     return (
-        <Box m={3}>
+        <VStack m={3} minW={`200px`}>
             {data.map(plan =>
                 <Box
                     key={plan.uuid}
@@ -32,6 +32,6 @@ export function PlanLinkList() {
                     <Link href={`/plans/${plan.uuid}`}>{plan.name}</Link>
                 </Box>
             )}
-        </Box>
+        </VStack>
     )
 }

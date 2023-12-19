@@ -1,19 +1,19 @@
 import Head from 'next/head';
-import {PlanLinkList} from "../components/plan/PlanLinkList";
-import {Center, Heading} from "@chakra-ui/react";
+import {Container, Heading, VStack} from "@chakra-ui/react";
+import Link from "next/link";
+import {PlanStatusList} from "../components/dashboard/PlanStatusList";
 
 export default function Home() {
     return (
-        <div>
+        <Container maxW='8xl' p={'8'}>
             <Head>
                 <title>Web API Tester Dashboard</title>
             </Head>
-            <Center>
+            <VStack>
                 <Heading>Web API Tester Dashboard</Heading>
-            </Center>
-            <Center>
-                <PlanLinkList />
-            </Center>
-        </div>
+                <PlanStatusList />
+                <Link href={'/plans'}>All Plans</Link>
+            </VStack>
+        </Container>
     );
 }
